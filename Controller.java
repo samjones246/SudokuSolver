@@ -19,12 +19,24 @@ public class Controller {
         button.addActionListener(e -> {
             Solver solver;
             try {
-                solver = new Solver(getInputClues(blocks));
-                solver.solveGrid();
-                Cell[][] grid = solver.getGrid();
-                philGridd(grid, blocks);
+                Cell[] clues = getInputClues(blocks);
+                int pretty = 0;
+                for(Cell clue:clues){
+                    if(clue.getValue().equals(3)){
+                        pretty++;
+                    }
+                }
+                if(pretty==81){
+                    JOptionPane.showMessageDialog(window, "Beautiful!", "333333", JOptionPane.INFORMATION_MESSAGE);
+                }else {
+                    solver = new Solver(clues);
+                    solver.solveGrid();
+                    Cell[][] grid = solver.getGrid();
+                    philGridd(grid, blocks);
+                }
             }catch (Exception uDoneGoofedMate){
-                JOptionPane.showMessageDialog(window, "Invalid Sudoku!");
+                JOptionPane.showMessageDialog(window, "That arrangement of clues isn't possible to solve!", "Invalid Sudoku", JOptionPane.ERROR_MESSAGE);
+
                 revertFormat();
             }
         });
